@@ -1,52 +1,86 @@
 <!doctype html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Epona AR</title>
-<style>body { margin: 0; overflow: hidden; }</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Epona AR</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+  </style>
 
-<script src="https://cdn.jsdelivr.net/npm/aframe@1.6.0/dist/aframe-master.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/aframe/build/aframe-ar.js"></script>
-<script>
-// ย่อ/วางโมเดลให้พอดี marker แล้วเล่นอนิเมชันแรก  (แก้ 1.8 = ความกว้างโมเดล)
-AFRAME.registerComponent('fit', {
-  init() {
-    this.el.addEventListener('model-loaded', e => {
-      const model = e.detail.model, THREE = AFRAME.THREE;
-      const box = new THREE.Box3().setFromObject(model);
-      const size = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
-      model.position.set(-center.x, -box.min.y, -center.z);
-      this.el.object3D.scale.setScalar(1.8 / Math.max(size.x, size.y, size.z));
-      if (model.animations.length) {
-        this.mixer = new THREE.AnimationMixer(model);
-        this.mixer.clipAction(model.animations[0]).play();
+  <!-- A-Frame & AR.js -->
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.6.0/dist/aframe-master.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/aframe/build/aframe-ar.js"></script>
+
+  <script>
+    // Component ปรับขนาด อัดกึ่งกลาง และเล่นอนิเมชันอัตโนมัติ
+    AFRAME.registerComponent('fit', {
+      schema: {
+        targetSize: { type: 'number', default: 1.8 } // ขนาดเป้าหมาย (เมตร)
+      },
+      init() {
+        this.el.addEventListener('model-loaded', e => {
+          const model = e.detail.model;
+          const THREE = AFRAME.THREE;
+
+          // คำนวณ Bounding Box ของโมเดล
+          const box = new THREE.Box3().setFromObject(model);
+          const size = box.getSize(new THREE.Vector3());
+          const center = box.getCenter(new THREE.Vector3());
+
+          // จัดตำแหน่งให้จุดศูนย์กลางและฐานของโมเดลวางพอดีบน Marker (Y = 0)
+          model.position.set(-center.x, -box.min.y, -center.z);
+
+          // ปรับ Scale ให้ได้ขนาดตาม targetSize
+          const maxDim = Math.max(size.x, size.y, size.z);
+          if (maxDim > 0) {
+            const scale = this.data.targetSize / maxDim;
+            this.el.object3D.scale.setScalar(scale);
+          }
+
+          // เล่นอนิเมชันแรก (ถ้ามี)
+          if (model.animations && model.animations.length > 0) {
+            this.mixer = new THREE.AnimationMixer(model);
+            const action = this.mixer.clipAction(model.animations[0]);
+            action.play();
+          }
+        });
+      },
+      tick(time, timeDelta) {
+        if (this.mixer) {
+          this.mixer.update(timeDelta / 1000);
+        }
       }
     });
-  },
-  tick(time, dt) { if (this.mixer) this.mixer.update(dt / 1000); }
-});
-</script>
+  </script>
 </head>
 
 <body>
-<a-scene embedded vr-mode-ui="enabled: false" loading-screen="enabled: false"
-  arjs="sourceType: webcam; debugUIEnabled: false; cameraParametersUrl: https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/data/data/camera_para.dat;">
+  <a-scene 
+    embedded 
+    vr-mode-ui="enabled: false" 
+    loading-screen="enabled: false"
+    arjs="sourceType: webcam; debugUIEnabled: false; cameraParametersUrl: https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/data/data/camera_para.dat;">
 
-  <a-marker preset="hiro" smooth="true">
-    <a-entity gltf-model="https://NJJ1214.github.io/modern_tactical_soldier.glb" fit></a-entity>
-  </a-marker>
+    <!-- Hiro Marker -->
+    <a-marker preset="hiro" smooth="true" smoothCount="5">
+      <!-- ใส่ไฟล์ GLB ที่ต้องการตรงนี้ -->
+      <a-entity 
+        gltf-model="https://NJJ1214.github.io/modern_tactical_soldier.glb" 
+        fit="targetSize: 1.8">
+      </a-entity>
+    </a-marker>
 
-  <a-entity camera></a-entity>
-</a-scene>
+    <a-entity camera></a-entity>
+  </a-scene>
 
-<p style="position:fixed; bottom:8px; left:10px; margin:0; padding:4px 8px; border-radius:6px;
-   background:#000a; color:#fff; font:12px system-ui, Tahoma, sans-serif;">
-  <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/HIRO.jpg" target="_blank" style="color:#9ef">marker</a>
-  · Epona by
-  <a href="https://sketchfab.com/3d-models/epona-1f1da2940b0d4ddcb4beae1680c47918" target="_blank" style="color:#9ef">Vasian-Digital3D</a>
-  · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color:#9ef">CC BY 4.0</a>
-</p>
+  <!-- Credit Footer -->
+  <p style="position:fixed; bottom:8px; left:10px; margin:0; padding:4px 8px; border-radius:6px;
+            background:rgba(0,0,0,0.67); color:#fff; font:12px system-ui, Tahoma, sans-serif; z-index:999;">
+    <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/HIRO.jpg" target="_blank" style="color:#9ef">Marker Hiro</a>
+    · Epona by
+    <a href="https://sketchfab.com/3d-models/epona-1f1da2940b0d4ddcb4beae1680c47918" target="_blank" style="color:#9ef">Vasian-Digital3D</a>
+    · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color:#9ef">CC BY 4.0</a>
+  </p>
 </body>
 </html>
