@@ -17,26 +17,26 @@
     <a-asset-item id="hatModel" src="896eb0323e54480db6d702e48faa0689.glb"></a-asset-item>
   </a-assets>
 
-  <!-- เปลี่ยนจากกล่องสีแดงเป็นโมเดลแว่นตาจริง -->
-  <a-entity mindar-face-target="anchorIndex: 1">
-    <a-gltf-model 
-      rotation="0 0 0" 
-      position="0 0.03 0.05" 
-      scale="0.06 0.06 0.06" 
-      src="#glassesModel">
-    </a-gltf-model>
-  </a-entity>
 
-  <!-- หมวกตำแหน่งเดิมที่ลงตัวแล้ว -->
+  <!-- Anchor กับตำแหน่งบนใบหน้า -->
+  <a-entity mindar-face-target="anchorIndex: 1">
+    <a-box position="0 0 0" scale="0.1 0.1 0.1" color="red"></a-box>
+
+     <!-- หมวก (ตั้งค่าตำแหน่งพอดีศีรษะ) -->
   <a-entity mindar-face-target="anchorIndex: 10">
     <a-entity position="0 0.15 -0.05">
-      <a-gltf-model
-        rotation="180 0 90"
-        scale="0.45 0.45 0.45"
+      <a-gltf-model 
+        rotation="180 0 90" 
+        scale="0.45 0.45 0.45" 
         src="#hatModel">
       </a-gltf-model>
     </a-entity>
   </a-entity>
+
+
+
+
+
 
   <a-camera active="false" position="0 0 0"> </a-camera>
 
