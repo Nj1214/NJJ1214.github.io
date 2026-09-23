@@ -14,6 +14,7 @@
   <a-assets>
     <a-asset-item id="glassesModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/face-tracking/assets/glasses/scene.gltf"></a-asset-item>
     <a-asset-item id="headModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/face-tracking/assets/sparkar/headOccluder.glb"></a-asset-item>
+    <a-asset-item id="hat" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/face-tracking/assets/hat/896eb0323e54480db6d702e48faa0689.glb"></a-asset-item>
   </a-assets>
 
 
@@ -29,6 +30,12 @@
     <a-gltf-model 
       rotation="0 0 0" position="0 0 0" scale="0.008 0.008 0.008" 
       src="#glassesModel">
+    </a-gltf-model>
+
+    <a-entity mindar-face-target="anchorIndex: 9">
+    <a-gltf-model 
+      rotation="0 0 0" position="0 0 0" scale="0.008 0.008 0.008" 
+      src="#hat">
     </a-gltf-model>
     
   </a-entity>
