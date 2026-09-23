@@ -17,17 +17,17 @@
     <a-asset-item id="hatModel" src="896eb0323e54480db6d702e48faa0689.glb"></a-asset-item>
   </a-assets>
 
-  <!-- Anchor ของอาจารย์ (กล่องสีแดง/ตำแหน่งแว่น) -->
+  <!-- Anchor ของอาจารย์ (กล่องสีแดง) -->
   <a-entity mindar-face-target="anchorIndex: 1">
-    <a-box position="0 0 0.05" scale="0.1 0.1 0.1" color="red"></a-box>
+    <a-box position="0 0 0" scale="0.1 0.1 0.1" color="red"></a-box>
   </a-entity>
 
-  <!-- หมวก (ตั้งค่าตำแหน่งพอดีศีรษะ) -->
+  <!-- ชุดหมวกตามค่าในรูปภาพ -->
   <a-entity mindar-face-target="anchorIndex: 10">
     <a-entity position="0 0.15 -0.05">
-      <a-gltf-model 
-        rotation="180 0 90" 
-        scale="0.45 0.45 0.45" 
+      <a-gltf-model
+        rotation="180 0 90"
+        scale="0.45 0.45 0.45"
         src="#hatModel">
       </a-gltf-model>
     </a-entity>
