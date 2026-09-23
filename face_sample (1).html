@@ -14,21 +14,25 @@
   <a-assets>
     <a-asset-item id="glassesModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/face-tracking/assets/glasses/scene.gltf"></a-asset-item>
     <a-asset-item id="headModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/face-tracking/assets/sparkar/headOccluder.glb"></a-asset-item>
-    <!-- 1. โหลดโมเดลหมวก -->
     <a-asset-item id="hatModel" src="896eb0323e54480db6d702e48faa0689.glb"></a-asset-item>
   </a-assets>
 
-  <!-- Anchor แว่นตา/กล่องแดง (ของอาจารย์) -->
+  <!-- แว่นตา (ย่อขนาดลงเหลือ 0.05 และดึงตำแหน่งออกมาด้านหน้าเล็กน้อย) -->
   <a-entity mindar-face-target="anchorIndex: 1">
-    <a-box position="0 0 0" scale="0.1 0.1 0.1" color="red"></a-box>
+    <a-gltf-model 
+      rotation="0 0 0" 
+      position="0 0 0.03" 
+      scale="0.05 0.05 0.05" 
+      src="#glassesModel">
+    </a-gltf-model>
   </a-entity>
 
-  <!-- 2. เพิ่มหมวก (ผูกไว้กับจุด 10 บนหน้าผาก + ซ้อน Entity แก้แกนเอียง) -->
+  <!-- หมวก (ย่อขนาดลงเหลือ 0.55 และปรับตำแหน่งลงมาพอดีศีรษะ) -->
   <a-entity mindar-face-target="anchorIndex: 10">
-    <a-entity position="0 0.1 -0.05">
+    <a-entity position="0 0.08 -0.05">
       <a-gltf-model 
         rotation="0 0 90" 
-        scale="1.2 1.2 1.2" 
+        scale="0.55 0.55 0.55" 
         src="#hatModel">
       </a-gltf-model>
     </a-entity>
