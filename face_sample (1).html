@@ -5,7 +5,7 @@
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-face-aframe.prod.js"></script>
   <style>
     html, body { margin: 0; width: 100%; height: 100%; overflow: hidden;}
-    a-scene {width: 100%;  height: 100%;}
+    a-scene {width: 100%; height: 100%;}
   </style>
 </head>
 
@@ -13,28 +13,31 @@
 <a-scene mindar-face embedded vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
   <a-assets>
     <a-asset-item id="glassesModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/face-tracking/assets/glasses/scene.gltf"></a-asset-item>
-    <a-asset-item id="headModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/face-tracking/assets/sparkar/headOccluder.glb"></a-asset-item>
-    <!-- เพิ่มโมเดลหมวก -->
     <a-asset-item id="hatModel" src="896eb0323e54480db6d702e48faa0689.glb"></a-asset-item>
   </a-assets>
 
-  <!-- Anchor ของอาจารย์ (แว่นตา/กล่องแดง) - ไม่ได้ปรับแก้ใดๆ -->
-  <a-entity mindar-face-target="anchorIndex: 1">
-    <a-box position="0 0 0" scale="0.1 0.1 0.1" color="red"></a-box>
+  <!-- แว่นตา (ปรับ Anchor เป็น 168 สันจมูกบน และดัน Z ออกมาที่ 0.15 เพื่อไม่ให้จมเข้าหน้า) -->
+  <a-entity mindar-face-target="anchorIndex: 168">
+    <a-gltf-model 
+      rotation="0 0 0" 
+      position="0 0 0.15" 
+      scale="0.06 0.06 0.06" 
+      src="#glassesModel">
+    </a-gltf-model>
   </a-entity>
 
-  <!-- เพิ่มเฉพาะส่วนหมวกบนศีรษะ (anchorIndex: 10) -->
+  <!-- หมวก (ปรับขนาดลงเหลือ 0.45 และดันตำแหน่งขึ้นไปบนหัว) -->
   <a-entity mindar-face-target="anchorIndex: 10">
-    <a-entity position="0 0.1 -0.05">
+    <a-entity position="0 0.12 -0.05">
       <a-gltf-model 
         rotation="0 0 90" 
-        scale="0.5 0.5 0.5" 
+        scale="0.45 0.45 0.45" 
         src="#hatModel">
       </a-gltf-model>
     </a-entity>
   </a-entity>
 
-  <a-camera active="false" position="0 0 0"> </a-camera>
+  <a-camera active="false" position="0 0 0"></a-camera>
 
 </a-scene>
 </body>
