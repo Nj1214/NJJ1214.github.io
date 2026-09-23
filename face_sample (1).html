@@ -28,22 +28,22 @@
     </a-gltf-model>
   </a-entity>
 
-  <!-- แว่นตา (ขยาย scale เป็น 0.08 และดึง position ออกมาด้านหน้า) -->
-  <a-entity mindar-face-target="anchorIndex: 168">
+  <!-- แว่นตา (เปลี่ยน Anchor ไปที่สันจมูก Index 1 และปรับขนาดให้เห็นชัด) -->
+  <a-entity mindar-face-target="anchorIndex: 1">
     <a-gltf-model 
       rotation="0 0 0" 
-      position="0 0 0.1" 
-      scale="0.08 0.08 0.08" 
+      position="0 0.05 0.05" 
+      scale="0.06 0.06 0.06" 
       src="#glassesModel">
     </a-gltf-model>
   </a-entity>
 
-  <!-- หมวก (ขยายขนาด และปรับมุมก้มสวมลงบนศีรษะ) -->
+  <!-- หมวก (ดัดแกน rotation="0 0 90" แก้ปัญหาหมวกตะแคง และขยายสวมหัว) -->
   <a-entity mindar-face-target="anchorIndex: 10">
-    <a-entity position="0 0.1 -0.1">
+    <a-entity position="0 -0.05 -0.1">
       <a-gltf-model 
-        rotation="-20 0 0" 
-        scale="1.2 1.2 1.2" 
+        rotation="0 0 90" 
+        scale="1.5 1.5 1.5" 
         src="#hatModel">
       </a-gltf-model>
     </a-entity>
